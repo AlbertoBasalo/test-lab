@@ -5,58 +5,47 @@ import { idUtils } from "../app/utils/id.utils.ts";
 
 // 1 Deterministic tests
 
-describe("idUtils", () => {
-  describe("extractSeed", () => {
-    it("should extract seed from id", () => {
-      // Arrange
-      const inputId = "1.2";
-      const expectedSeed = 1;
-      // Act
-      const actualSeed = idUtils.extractSeed(inputId);
-      // Assert
-      expect(actualSeed).toBe(expectedSeed);
-    });
-  });
+test("extractSeed should extract seed from id", () => {
+  // Arrange
+  const inputId = "1.2";
+  const expectedSeed = 1;
+  // Act
+  const actualSeed = idUtils.extractSeed(inputId);
+  // Assert
+  expect(actualSeed).toBe(expectedSeed);
+});
 
-  // 2 Non-deterministic tests
+// 2 Non-deterministic tests
 
-  describe("generate", () => {
-    it("should generate id with minimum length", async () => {
-      // Arrange
-      const expectedMinLength = 3;
-      // Act
-      const actualId = await idUtils.generate();
-      const actualLength = actualId.length;
-      // Assert
-      expect(actualLength).toBeGreaterThanOrEqual(expectedMinLength);
-    });
-  });
+test("generate should generate id with minimum length", async () => {
+  // Arrange
+  const expectedMinLength = 3;
+  // Act
+  const actualId = await idUtils.generate();
+  const actualLength = actualId.length;
+  // Assert
+  expect(actualLength).toBeGreaterThanOrEqual(expectedMinLength);
+});
 
-  // 3 State change tests
+// 3 State change tests
 
-  describe("last", () => {
-    it("should return a bigger last number after generating an id", async () => {
-      // Arrange
-      const expectedLast = idUtils.last;
-      await idUtils.generate();
-      // Act
-      const actualLast = idUtils.last;
-      // Assert
-      expect(actualLast).toBeGreaterThan(expectedLast);
-    });
-  });
+test("last should return a bigger last number after generating an id", async () => {
+  // Arrange
+  const expectedLast = idUtils.last;
+  await idUtils.generate();
+  // Act
+  const actualLast = idUtils.last;
+  // Assert
+  expect(actualLast).toBeGreaterThan(expectedLast);
+});
+// 4 Effect tests
 
-  // 4 Effect tests
-
-  describe("seedJson", () => {
-    it("should match seed from generated id", async () => {
-      // Arrange
-      const id = await idUtils.generate();
-      const expectedSeed = idUtils.extractSeed(id);
-      // Act
-      const actualSeed = await file.readJson("seed.json");
-      // Assert
-      expect(actualSeed).toBe(expectedSeed);
-    });
-  });
+test("seedJson should match seed from generated id", async () => {
+  // Arrange
+  const id = await idUtils.generate();
+  const expectedSeed = idUtils.extractSeed(id);
+  // Act
+  const actualSeed = await file.readJson("seed.json");
+  // Assert
+  expect(actualSeed).toBe(expectedSeed);
 });
