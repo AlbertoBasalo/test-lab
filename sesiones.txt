@@ -1,7 +1,7 @@
-1 - intro: entry/exits, AAA, describe
-2 - doubles: stubs, spies, mocks
-3 - jest: configure, doubles, reports
-4 - tdd: rgr, kata simple, kata dpendencies
+1 - intro: entry/exits, AAA
+2 - doubles: stubs, spies, fakes, suites
+3 - jest: configure, coverage, reports
+4 - tdd: rgr, kata simple, kata dependencies
 
 
 // https://github.com/TrainingITCourses/softtek_testing

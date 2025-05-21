@@ -1,3 +1,28 @@
+export type Portfolio = {
+  currency: string;
+  date: Date;
+  assets : Asset[];
+  value: number;
+}
+
+export type Asset = {
+  id: number;
+  name: string;
+  type: 'cash' | 'crypto' | 'stocks'
+  symbol: string;
+  quantity: number;
+};
+
+
+RANDOM SIMULATOR
+
+export type Rate = {
+  symbol: string;
+  name: string;
+  price: number; 
+  timestamp: number;
+};
+
 Feature: Portfolio Management
   As a user, I want to manage my investment portfolio
   So that I can track my assets and their values.
