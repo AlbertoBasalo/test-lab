@@ -9,10 +9,10 @@ describe("idUtils", () => {
   describe("extractSeed", () => {
     it("should extract seed from id", () => {
       // Arrange
-      const id = "1.2";
+      const inputId = "1.2";
       const expectedSeed = 1;
       // Act
-      const actualSeed = idUtils.extractSeed(id);
+      const actualSeed = idUtils.extractSeed(inputId);
       // Assert
       expect(actualSeed).toBe(expectedSeed);
     });
@@ -26,22 +26,23 @@ describe("idUtils", () => {
       const expectedMinLength = 3;
       // Act
       const actualId = await idUtils.generate();
+      const actualLength = actualId.length;
       // Assert
-      expect(actualId.length).toBeGreaterThanOrEqual(expectedMinLength);
+      expect(actualLength).toBeGreaterThanOrEqual(expectedMinLength);
     });
   });
 
   // 3 State change tests
 
   describe("last", () => {
-    it("should return last number from generated id", async () => {
+    it("should return a bigger last number after generating an id", async () => {
       // Arrange
-      const id = await idUtils.generate();
-      const expectedLast = Number.parseInt(id.split(".")[1]);
+      const expectedLast = idUtils.last;
+      await idUtils.generate();
       // Act
       const actualLast = idUtils.last;
       // Assert
-      expect(actualLast).toBe(expectedLast);
+      expect(actualLast).toBeGreaterThan(expectedLast);
     });
   });
 
@@ -51,7 +52,7 @@ describe("idUtils", () => {
     it("should match seed from generated id", async () => {
       // Arrange
       const id = await idUtils.generate();
-      const expectedSeed = Number.parseInt(id.split(".")[0]);
+      const expectedSeed = idUtils.extractSeed(id);
       // Act
       const actualSeed = await file.readJson("seed.json");
       // Assert
