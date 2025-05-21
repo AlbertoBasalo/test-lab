@@ -1,10 +1,12 @@
 import { idUtils } from "../utils/id.utils";
+import { PortfolioRepository } from "./portfolio.repository";
 import { defaultPortfolio, Portfolio } from "./portfolio.type";
 import { RatesGateway } from "./rates.gateway";
 
 export class AssetsService {
   public portfolio: Portfolio = defaultPortfolio;
   private ratesGateway: RatesGateway;
+  private portfolioRepository: PortfolioRepository = new PortfolioRepository();
 
   constructor(ratesGateway: RatesGateway) {
     this.ratesGateway = ratesGateway;
@@ -33,7 +35,9 @@ export class AssetsService {
     const rate = this.ratesGateway.get(symbol);
     const cost = rate.price * units;
     if (!this.hasEnoughUnits('USD', cost)) {
-      throw new Error('Not enough cash');
+      const usdAsset = this.portfolio.assets.find(asset => asset.symbol === 'USD');
+      const have = usdAsset ? usdAsset.quantity : 0;
+      throw new Error(`Not enough cash. Need: ${cost} - Have: ${have}`);
     }
     const asset = this.portfolio.assets.find(asset => asset.symbol === symbol);
     if (asset) {
@@ -80,6 +84,10 @@ export class AssetsService {
     for (const asset of this.portfolio.assets) {
       console.log(`${asset.symbol} - ${asset.quantity} - ${asset.lastPrice} - ${asset.quantity * asset.lastPrice}`);
     }
+  }
+
+  public save() {
+    return this.portfolioRepository.save(this.portfolio);
   }
 
   private hasEnoughUnits(symbol: string, units: number): boolean {
