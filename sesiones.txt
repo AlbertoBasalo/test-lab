@@ -1,0 +1,33 @@
+1 - intro: entry/exits, AAA, describe
+2 - doubles: stubs, spies, mocks
+3 - jest: configure, doubles, reports
+4 - tdd: rgr, kata simple, kata dpendencies
+
+
+// https://github.com/TrainingITCourses/softtek_testing
+
+export type Portfolio = {
+  currency: string;
+  date: Date;
+  assets : Asset[];
+  value: number;
+}
+
+export type Asset = {
+  id: number;
+  name: string;
+  type: 'cash' | 'crypto' | 'stocks'
+  symbol: string;
+  quantity: number;
+};
+
+
+RANDOM SIMULATOR
+
+export type Rate = {
+  symbol: string;
+  name: string;
+  price: number; 
+  timestamp: number;
+};
+

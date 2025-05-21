@@ -1,0 +1,99 @@
+Feature: Portfolio Management
+  As a user, I want to manage my investment portfolio
+  So that I can track my assets and their values.
+
+  Scenario: Calculate portfolio value
+    Given a portfolio with specific assets and quantities
+    When the portfolio value is calculated
+    Then the total value should be the sum of (quantity * currentPrice) for all assets, and quantity for cash assets
+
+  Scenario: Calculate portfolio snapshot value
+    Given a portfolio snapshot with specific assets and quantities
+    When the portfolio snapshot value is calculated
+    Then the total value should reflect the sum of its assets based on their state at the time of the snapshot
+
+  Scenario: Get a rate for a symbol
+    Given a financial instrument symbol
+    When a rate is requested for the symbol
+    Then a rate object containing the symbol and a price should be returned
+
+  Scenario: Fetch current rate for a symbol
+    Given a financial instrument symbol
+    When the current rate is fetched for the symbol
+    Then a rate object containing the symbol and its current market price should be returned after a delay
+
+  Scenario: Buy an asset successfully
+    Given a portfolio with sufficient cash in a specific currency
+    And an asset to buy with a name, type, symbol, quantity, and price per unit
+    When the asset is bought
+    Then the asset should be added to the portfolio or its quantity increased if already present
+    And the cash amount in the portfolio should decrease by the total cost of the asset
+    And the portfolio's total value should be updated
+
+  Scenario: Buy an asset with insufficient funds
+    Given a portfolio with insufficient cash
+    And an asset to buy
+    When an attempt is made to buy the asset
+    Then an error "Not enough cash to buy asset." should be thrown
+    And the portfolio assets and cash balance should remain unchanged
+
+  Scenario: Sell an asset successfully
+    Given a portfolio containing a specific asset with sufficient quantity
+    And details of the asset to sell (symbol, type, quantity, price per unit)
+    When the asset is sold
+    Then the quantity of the sold asset in the portfolio should decrease
+    And the cash amount in the portfolio should increase by the total proceeds of the sale
+    And the portfolio's total value should be updated
+    And if the asset quantity becomes zero, it should be removed from the portfolio
+
+  Scenario: Attempt to sell an asset not in portfolio
+    Given a portfolio
+    And details of an asset to sell that is not present in the portfolio
+    When an attempt is made to sell the asset
+    Then an error "Asset with symbol <symbol> and type <type> not found in portfolio." should be thrown
+    And the portfolio should remain unchanged
+
+  Scenario: Attempt to sell more quantity of an asset than available
+    Given a portfolio containing a specific asset with a certain quantity
+    And details to sell a larger quantity of that asset
+    When an attempt is made to sell the asset
+    Then an error "Not enough quantity of <symbol> to sell. Available: <available_qty>, trying to sell: <requested_qty>" should be thrown
+    And the portfolio should remain unchanged
+
+  Scenario: Get the current portfolio
+    Given an existing portfolio
+    When the current portfolio is requested
+    Then a copy of the current portfolio data including all assets and total value should be returned
+
+  Scenario: Save a portfolio
+    Given a portfolio with an ID, name, currency, date, assets, and total value
+    When the portfolio is saved
+    Then a file named "portfolio-<ID>.json" should be created with the portfolio data
+    And a confirmation message "Portfolio <ID> saved." should be logged
+
+  Scenario: Load a portfolio successfully
+    Given a saved portfolio file "portfolio-<ID>.json" exists with valid data
+    When the portfolio with ID "<ID>" is loaded
+    Then a portfolio object matching the saved data should be returned
+    And if the date was stored as a string, it should be converted to a Date object
+
+  Scenario: Attempt to load a non-existent portfolio
+    Given no portfolio file exists for a specific portfolio ID "<ID>"
+    When an attempt is made to load the portfolio with ID "<ID>"
+    Then an error "Failed to load or parse portfolio with id <ID>. Invalid format." should be thrown (or similar, depending on mock implementation)
+
+  Scenario: Attempt to load a portfolio with invalid format
+    Given a portfolio file "portfolio-<ID>.json" exists but contains invalid or malformed data
+    When the portfolio with ID "<ID>" is loaded
+    Then an error "Failed to load or parse portfolio with id <ID>. Invalid format." should be thrown
+
+  Scenario: Reset portfolio to default state
+    Given the portfolio may be in any state
+    When the portfolio is reset
+    Then the portfolio should be re-initialized with a default ID, name, currency (USD), current date, initial cash (10000 USD), and total value (10000)
+
+  Scenario: Reset portfolio with custom parameters
+    Given the portfolio may be in any state
+    And a custom ID "custom-id", name "Custom Port", currency "EUR", and initial cash 5000
+    When the portfolio is reset with these custom parameters
+    Then the portfolio should be re-initialized with "custom-id", "Custom Port", "EUR", current date, initial cash (5000 EUR), and total value (5000) 
