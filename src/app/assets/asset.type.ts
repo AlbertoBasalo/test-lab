@@ -1,10 +1,10 @@
 export type AssetType = "cash" | "crypto" | "stocks";
 
-export type Asset= {
-  id: string;
+export type Asset = {
   name: string;
   type: AssetType;
   symbol: string;
   quantity: number;
-  price: number;
+  updatedAt: Date;
+  lastPrice: number;
 } 
