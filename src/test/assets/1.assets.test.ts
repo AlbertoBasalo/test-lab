@@ -10,8 +10,10 @@ test("calculateValue should sum all assets values", async () => {
   // Arrange
   const ratesGateway = new RatesGateway();
   const assetsServiceSut = new AssetsService(ratesGateway);
-  await assetsServiceSut.buildFor("user123", 1000);
-  const expectedValue = 1000;
+  const dummyUserId = "user123";
+  const dummyAmount = 1000;
+  await assetsServiceSut.buildFor(dummyUserId, dummyAmount);
+  const expectedValue = dummyAmount;
   // Act
   const actualValue = assetsServiceSut.calculateValue();
   // Assert
@@ -24,7 +26,9 @@ test("buy should add asset to portfolio or throw error", async () => {
   // Arrange
   const ratesGateway = new RatesGateway();
   const assetsServiceSut = new AssetsService(ratesGateway);
-  await assetsServiceSut.buildFor("user123", 1000);
+  const dummyUserId = "user123";
+  const dummyAmount = 1000;
+  await assetsServiceSut.buildFor(dummyUserId, dummyAmount);
   // Act
   try {
     assetsServiceSut.buy("APPL", 100);
@@ -45,8 +49,10 @@ test("buildFor should create portfolio with USD asset", async () => {
   // Arrange
   const ratesGateway = new RatesGateway();
   const assetsServiceSut = new AssetsService(ratesGateway);
+  const dummyUserId = "user123";
+  const dummyAmount = 1000;
   // Act
-  await assetsServiceSut.buildFor("user123", 1000);
+  await assetsServiceSut.buildFor(dummyUserId, dummyAmount);
   // Assert
   const actualAssets = assetsServiceSut.portfolio.assets;
   const expectedAssetsLength = 1;
@@ -64,11 +70,13 @@ test("save should produce a file for the user", async () => {
   // Arrange
   const ratesGateway = new RatesGateway();
   const assetsServiceSut = new AssetsService(ratesGateway);
-  await assetsServiceSut.buildFor("user123", 1000);
+  const dummyUserId = "user123";
+  const dummyAmount = 1000;
+  await assetsServiceSut.buildFor(dummyUserId, dummyAmount);
   // Act
   await assetsServiceSut.save();
   // Assert
-  const expectedFileName = "portfolio-user123.json";
+  const expectedFileName = `portfolio-${dummyUserId}.json`;
   const actualExists = await file.exists(expectedFileName);
   expect(actualExists).toBe(true);
 });
