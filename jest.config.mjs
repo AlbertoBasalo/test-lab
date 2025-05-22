@@ -12,5 +12,6 @@ export default {
       useESM: true,
       tsconfig: 'tsconfig.json'
     }]
-  }
+  },
+  verbose: true,
 };
