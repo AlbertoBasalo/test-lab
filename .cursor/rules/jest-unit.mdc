@@ -13,43 +13,34 @@ alwaysApply: false
 - Follow AAA pattern (Arrange, Act, Assert) in test cases
 
 ## Naming
-- Prefix data variables with `input`, `actual` or `expected`.
-- Suffix doubles and suts with `Sut`, `Stub`, `Spy` or `Fake`.
+- Use the most realistics variable names for input and output data.
+- Do not use variables for asertions, prefer real data.
+- Suffix doubles with `Stub`, `Spy` or `Fake`.
 
-
-## Mocking and Stubbing
+## Doubles for Dependencies
+- Create fake implementations for dependencies when:
+  - Unreliable (not tested or not deterministic)
+  - Slow (compute or out of process)
 - Use `jest.fn()` for creating mock functions
 - Use `jest.spyOn()` for spying on existing methods
 - Store original implementations in variables for restoration
 - Clear mocks between tests using `jest.clearAllMocks()`
 
-
-## Mocking External Dependencies
-- Create fake implementations for dependencies when:
-  - Not reliable
-  - Slow
-  - Cost
-
 ## Assertions
 - Use specific assertions that match the test case
 - Verify both return values and side effects
 - Check mock function calls when relevant
+- Prefer only one assertion per test case
 ```typescript
-expect(actualResult).toBe(expectedResult);
+expect(message).toBe('hello');
 expect(methodSpy).toHaveBeenCalledTimes(1);
 ```
 
-## Async Testing
-- Use `async/await` for asynchronous tests
-- Handle promises properly in assertions
-- Mock async functions with `mockResolvedValue` or `mockRejectedValue`
-
 ## Best Practices
 - Keep tests focused and isolated
-- Use meaningful variable names (`inputValueName`, `actulResultName`, `expectedResultName`, `methodNameStub`. `methodNameSpy`, `dependencyNameFake`, )
 - Document complex test setups
 - Clean up after tests
-- Use type assertions sparingly and only for testing purposes
+
 
 
 
