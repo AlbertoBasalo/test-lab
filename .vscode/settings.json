@@ -1,0 +1,52 @@
+{
+	"[javascript]": {
+		"editor.defaultFormatter": "biomejs.biome"
+	},
+	"[typescript]": {
+		"editor.defaultFormatter": "biomejs.biome"
+	},
+	"editor.codeActionsOnSave": {
+		"quickfix.biome": "explicit",
+		"source.organizeImports.biome": "explicit"
+	},
+	"material-icon-theme.folders.associations": {
+		".ai": "robot",
+		"architect": "godot",
+		"builder": "godot",
+		"craftsman": "godot",
+		"file": "meta",
+		"http": "api",
+		"prompts": "robot",
+		"domain": "cobol",
+		"system": "stack"
+	},
+	"material-icon-theme.files.associations": {
+		"*.blueprint.md": "apiblueprint",
+		"*.instructions.md": "twine",
+		"*.tracker.md": "verified",
+		"*.plan.md": "architecture",
+		"*.prompt.md": "pascal",
+		"*.template.md": "textlint",
+		"*.adapter.ts": "adonis",
+		"*.builder.ts": "unocss",
+		"*.command.ts": "console",
+		"*.component.ts": "html",
+		"*.config.ts": "tune",
+		"*.decorator.ts": "renovate",
+		"*.dto.ts": "raml",
+		"*.facade.ts": "mjml",
+		"*.factory.ts": "fortran",
+		"*.functions.ts": "url",
+		"*.gateway.ts": "ifanr-cloud",
+		"*.interface.ts": "raml",
+		"*.mapper.ts": "purescript",
+		"*.module.ts": "less",
+		"*.operations.ts": "url",
+		"*.singleton.ts": "stitches",
+		"*.repository.ts": "database",
+		"*.service.ts": "slint",
+		"*.type.ts": "raml",
+		"*.utils.ts": "tilt",
+		"*.validator.ts": "velite"
+	}
+}
