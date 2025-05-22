@@ -3,6 +3,7 @@ import { idUtils } from "../app/utils/id.utils.ts";
 // Doubles
 
 // 1-Stubs
+
 test("generate should generate id with stubbed getSeed", async () => {
   // Arrange
   const inputSeed = 314;
@@ -15,14 +16,14 @@ test("generate should generate id with stubbed getSeed", async () => {
   // Assert
   expect(actualSeed).toBe(inputSeed);
   // After
-  // restore getSeed implementation
-  idUtils.getSeed = originalGetSeed;
+  idUtils.getSeed = originalGetSeed; // restore getSeed implementation
 });
 
 // 2-Spies
+
 test("getSeed should call getSeed once", async () => {
   // Arrange
-  jest.clearAllMocks();
+  jest.clearAllMocks(); // restart counters
   const getSeedSpy = jest.spyOn(idUtils, "getSeed");
   // Act
   await idUtils.generate();
@@ -31,9 +32,9 @@ test("getSeed should call getSeed once", async () => {
 });
 
 // 3-Fakes
+
 test("generate should use fake file adapter", async () => {
   // Arrange
-  jest.clearAllMocks();
   const fakeSeed = 314;
   const expectedSeed = fakeSeed + 1;
   const fileAdapterFake = {

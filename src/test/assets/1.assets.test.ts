@@ -9,11 +9,11 @@ import { file } from "../../app/file/file.adapter";
 test("calculateValue should sum all assets values", async () => {
   // Arrange
   const ratesGateway = new RatesGateway();
-  const service = new AssetsService(ratesGateway);
-  await service.buildFor("user123", 1000);
+  const assetsServiceSut = new AssetsService(ratesGateway);
+  await assetsServiceSut.buildFor("user123", 1000);
   const expectedValue = 1000;
   // Act
-  const actualValue = service.calculateValue();
+  const actualValue = assetsServiceSut.calculateValue();
   // Assert
   expect(actualValue).toBe(expectedValue);
 });
@@ -23,13 +23,14 @@ test("calculateValue should sum all assets values", async () => {
 test("buy should add asset to portfolio or throw error", async () => {
   // Arrange
   const ratesGateway = new RatesGateway();
-  const service = new AssetsService(ratesGateway);
-  await service.buildFor("user123", 1000);
+  const assetsServiceSut = new AssetsService(ratesGateway);
+  await assetsServiceSut.buildFor("user123", 1000);
   // Act
   try {
-    service.buy("APPL", 100);
+    assetsServiceSut.buy("APPL", 100);
     // Assert
-    expect(service.portfolio.assets.length).toBe(2);
+    const expectedAssetsLength = 2;
+    expect(assetsServiceSut.portfolio.assets.length).toBe(expectedAssetsLength);
   } catch (error) {
     // Assert
     const expectedErrorMessage = "Not enough cash";
@@ -43,26 +44,32 @@ test("buy should add asset to portfolio or throw error", async () => {
 test("buildFor should create portfolio with USD asset", async () => {
   // Arrange
   const ratesGateway = new RatesGateway();
-  const service = new AssetsService(ratesGateway);
+  const assetsServiceSut = new AssetsService(ratesGateway);
   // Act
-  await service.buildFor("user123", 1000);
+  await assetsServiceSut.buildFor("user123", 1000);
   // Assert
-  expect(service.portfolio.assets.length).toBe(1);
-  expect(service.portfolio.assets[0].symbol).toBe("USD");
-  expect(service.portfolio.assets[0].quantity).toBe(1000);
+  const actualAssets = assetsServiceSut.portfolio.assets;
+  const expectedAssetsLength = 1;
+  expect(actualAssets.length).toBe(expectedAssetsLength);
+  // Could be improved in a suite of atomic tests
+  const expectedAssetSymbol = "USD";
+  expect(actualAssets[0].symbol).toBe(expectedAssetSymbol);
+  const expectedAssetQuantity = 1000;
+  expect(actualAssets[0].quantity).toBe(expectedAssetQuantity);
 });
 
 // 4 Effect tests
 
-test("save should produce a file with portfolio", async () => {
+test("save should produce a file for the user", async () => {
   // Arrange
   const ratesGateway = new RatesGateway();
-  const service = new AssetsService(ratesGateway);
-  await service.buildFor("user123", 1000);
+  const assetsServiceSut = new AssetsService(ratesGateway);
+  await assetsServiceSut.buildFor("user123", 1000);
   // Act
-  await service.save();
+  await assetsServiceSut.save();
   // Assert
-  const actualExists = await file.exists("portfolio-user123.json");
+  const expectedFileName = "portfolio-user123.json";
+  const actualExists = await file.exists(expectedFileName);
   expect(actualExists).toBe(true);
 });
 

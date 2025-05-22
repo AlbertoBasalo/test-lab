@@ -38,6 +38,7 @@ test("last should return a bigger last number after generating an id", async () 
   // Assert
   expect(actualLast).toBeGreaterThan(expectedLast);
 });
+
 // 4 Effect tests
 
 test("seedJson should match seed from generated id", async () => {
