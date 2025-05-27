@@ -14,27 +14,27 @@ describe("id utils", () => {
 	describe("generate", () => {
 		it("should generate id with stubbed getSeed", async () => { 
 			const fakeReadSeed = 42;
-			const getSeedStub = jest.fn().mockResolvedValueOnce(fakeReadSeed);
-			idUtils.getSeed = getSeedStub;
+			const stubGetSeed = jest.fn().mockResolvedValueOnce(fakeReadSeed);
+			idUtils.getSeed = stubGetSeed;
 			const id = await idUtils.generate();
 			const seed = idUtils.extractSeed(id);
 			expect(seed).toBe(fakeReadSeed);
 		});
 	});
 	it("should call getSeed once", async () => {
-		const getSeedSpy = jest.spyOn(idUtils, "getSeed");
+		const spyGetSeed = jest.spyOn(idUtils, "getSeed");
 		await idUtils.generate();
-		expect(getSeedSpy).toHaveBeenCalledTimes(1);
+		expect(spyGetSeed).toHaveBeenCalledTimes(1);
 	});
 	it("should use fake file adapter", async () => {
     const fakeReadSeed = 42;
-		const fileAdapterFake = {
+		const fakeFile = {
 			readJson: jest.fn().mockResolvedValue(fakeReadSeed),
 			writeJson: jest.fn().mockResolvedValue(undefined),
 			exists: jest.fn().mockResolvedValue(true),
 		};
 		// biome-ignore lint: any for testing
-		idUtils.file = fileAdapterFake as any;
+		idUtils.file = fakeFile as any;
 		const id = await idUtils.generate();
 		const seed = idUtils.extractSeed(id);
     const expectedSeed = fakeReadSeed + 1;
