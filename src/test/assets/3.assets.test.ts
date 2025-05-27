@@ -3,6 +3,8 @@ import { AssetsService } from "../../app/assets/assets.service";
 import { PortfolioRepository } from "../../app/assets/portfolio.repository";
 import { GetSymbolRate } from "../../app/assets/rates.gateway";
 
+// Pro
+
 describe("assets service", () => {
   let ratesGatewayFake: GetSymbolRate;
   let portfolioRepositoryFake: PortfolioRepository;

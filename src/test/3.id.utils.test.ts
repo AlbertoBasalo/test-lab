@@ -12,12 +12,13 @@ describe("id utils", () => {
 		jest.clearAllMocks();
 	});
 	describe("generate", () => {
-		it("should generate id with stubbed getSeed", async () => {
-			const getSeedStub = jest.fn().mockResolvedValueOnce(42);
+		it("should generate id with stubbed getSeed", async () => { 
+			const fakeReadSeed = 42;
+			const getSeedStub = jest.fn().mockResolvedValueOnce(fakeReadSeed);
 			idUtils.getSeed = getSeedStub;
 			const id = await idUtils.generate();
 			const seed = idUtils.extractSeed(id);
-			expect(seed).toBe(42);
+			expect(seed).toBe(fakeReadSeed);
 		});
 	});
 	it("should call getSeed once", async () => {
@@ -26,8 +27,9 @@ describe("id utils", () => {
 		expect(getSeedSpy).toHaveBeenCalledTimes(1);
 	});
 	it("should use fake file adapter", async () => {
+    const fakeReadSeed = 42;
 		const fileAdapterFake = {
-			readJson: jest.fn().mockResolvedValue(42),
+			readJson: jest.fn().mockResolvedValue(fakeReadSeed),
 			writeJson: jest.fn().mockResolvedValue(undefined),
 			exists: jest.fn().mockResolvedValue(true),
 		};
@@ -35,6 +37,7 @@ describe("id utils", () => {
 		idUtils.file = fileAdapterFake as any;
 		const id = await idUtils.generate();
 		const seed = idUtils.extractSeed(id);
-		expect(seed).toBe(43);
+    const expectedSeed = fakeReadSeed + 1;
+		expect(seed).toBe(expectedSeed);
 	});
 });
