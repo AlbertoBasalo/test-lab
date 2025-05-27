@@ -1,5 +1,5 @@
 import { idUtils } from "../utils/id.utils";
-import { PortfolioRepository, PortfolioRepositoryActions } from "./portfolio.repository";
+import { PortfolioFileRepository, PortfolioRepository } from "./portfolio.repository";
 import { type Portfolio, defaultPortfolio } from "./portfolio.type";
 import type { RatesGateway } from "./rates.gateway";
 
@@ -8,9 +8,9 @@ export class AssetsService {
 	private ratesGateway: RatesGateway;
 	private portfolioRepository: PortfolioRepository;
 
-	constructor(ratesGateway: RatesGateway, portfolioRepository?: PortfolioRepositoryActions) {
+	constructor(ratesGateway: RatesGateway, portfolioRepository?: PortfolioRepository) {
 		this.ratesGateway = ratesGateway;
-		this.portfolioRepository = portfolioRepository || new PortfolioRepository();
+		this.portfolioRepository = portfolioRepository || new PortfolioFileRepository();
 	}
 
 	public async buildFor(ownerId: string, usdAmount = 1000) {

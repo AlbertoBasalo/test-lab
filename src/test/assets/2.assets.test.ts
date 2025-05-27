@@ -4,7 +4,7 @@
 
 import { Asset } from "../../app/assets/asset.type";
 import { AssetsService } from "../../app/assets/assets.service";
-import { PortfolioRepositoryActions } from "../../app/assets/portfolio.repository";
+import { PortfolioRepository } from "../../app/assets/portfolio.repository";
 import { GetSymbolRate, RatesGateway } from "../../app/assets/rates.gateway";
 
 
@@ -49,7 +49,7 @@ test("buy should add asset to portfolio or throw error", async () => {
 test("save should call repository save", async () => {
   // Arrange
   const ratesGateway = new RatesGateway();
-  const portfolioRepositorySpy:PortfolioRepositoryActions = {
+  const portfolioRepositorySpy:PortfolioRepository = {
     save: jest.fn(),
     load: jest.fn()
   };
@@ -80,7 +80,7 @@ test("should buy and sell MSFT stocks", async () => {
       throw new Error(`Symbol ${symbol} not found`);
     })
   };
-  const portfolioRepositorySpy:PortfolioRepositoryActions = {
+  const portfolioRepositorySpy:PortfolioRepository = {
     save: jest.fn(),
     load: jest.fn()
   };

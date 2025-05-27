@@ -3,8 +3,9 @@ import { file } from "../file/file.adapter.ts";
 let last = 0;
 let seed = 0;
 /**No usar en la versión inicial, 
- * solo pra demostrar la necesidad de DI 
- * y mockear el file adapter (una dependencia del SUT)
+ * solo para demostrar la necesidad de DI 
+ * y sustituir el file adapter (una dependencia del SUT)
+ * por un fake
  * */
 let _file = file;
 /**
