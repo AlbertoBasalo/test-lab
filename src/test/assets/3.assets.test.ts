@@ -6,9 +6,8 @@ import { GetSymbolRate } from "../../app/assets/rates.gateway";
 // Pro
 
 describe("The assets service", () => {
-  let fakeRatesGateway: GetSymbolRate;
-  let fakePortfolioRepository: PortfolioRepository;
-  let assetsService: AssetsService;
+  let assetsService: AssetsService; // same SUT, different instances on each test
+  
   const inputUserId = "user123";
   const inputAmount = 1000;
   const fakeRatesResult = {
@@ -28,35 +27,27 @@ describe("The assets service", () => {
       updatedAt: new Date()
     }]
   };
-
-
-  beforeAll(() => {
-    fakeRatesGateway = {
-      get: jest.fn().mockImplementation((symbol: string) => {
-        if (symbol === fakeRatesResult.symbol) return fakeRatesResult;
-        throw new Error(`Symbol ${symbol} not found`);
-      })
-    };
-
-    fakePortfolioRepository = {
-      save: jest.fn().mockResolvedValue(undefined),
-      load: jest.fn().mockResolvedValue(fakeLoadedPortfolio)
-    };
-  });
+  
+  const fakeRatesGateway: GetSymbolRate = {
+    get: jest.fn().mockImplementation((symbol: string) => {
+      if (symbol === fakeRatesResult.symbol) return fakeRatesResult;
+      throw new Error(`Symbol ${symbol} not found`);
+    })
+  };
+  const fakePortfolioRepository: PortfolioRepository = {
+    save: jest.fn().mockResolvedValue(undefined),
+    load: jest.fn().mockResolvedValue(fakeLoadedPortfolio)
+  };
 
   beforeEach(async () => {
     assetsService = new AssetsService(fakeRatesGateway, fakePortfolioRepository );
     await assetsService.buildFor(inputUserId, inputAmount);
-    jest.clearAllMocks();
   });
 
   describe("when a valid buy is made", () => {
-    let validSymbol: string;
-    let validQuantity: number;
+    const validSymbol = fakeRatesResult.symbol;
+    const validQuantity = 5;
     beforeEach(() => {
-      // Arrange
-      validSymbol = fakeRatesResult.symbol;
-      validQuantity = 5;
       // Act
       assetsService.buy(validSymbol, validQuantity);
     });
@@ -81,14 +72,10 @@ describe("The assets service", () => {
   });
 
   describe("when a buy with unknown symbol is made", () => {
-    let invalidSymbol: string;
-    let validQuantity: number;
-    beforeEach(() => {
-      // Arrange
-      invalidSymbol = "AAPL";
-      validQuantity = 5;
-    });
     it("should throw symbol not found error ", () => {
+      // Arrange
+      const invalidSymbol = "AAPL";
+      const validQuantity = 5;
       // Act and Assert
       const expectedError = `Symbol ${invalidSymbol} not found`;
       expect(() => assetsService.buy(invalidSymbol, validQuantity)).toThrow(expectedError);
@@ -96,18 +83,14 @@ describe("The assets service", () => {
   });
 
   describe("when a buy with not enough cash is made", () => {
-    let validSymbol: string;
-    let invalidQuantity: number;
-    beforeEach(() => {
-      // Arrange
-      validSymbol = fakeRatesResult.symbol;
-      invalidQuantity = 50;
-    });
     it("should throw not enough cash error ", () => {
-      // Act and Assert
+      // Arrange
+      const validSymbol = fakeRatesResult.symbol;
+      const invalidQuantity = 50;
       const cost = fakeRatesResult.price * invalidQuantity;
       const have = inputAmount;
       const expectedError = `Not enough cash. Need: ${cost} - Have: ${have}`;
+      // Act and Assert
       expect(() => assetsService.buy(validSymbol, invalidQuantity)).toThrow(expectedError);
     });
   });
@@ -116,7 +99,6 @@ describe("The assets service", () => {
     it("should call repository save with portfolio", async () => {
       // Act
       await assetsService.save();
-      
       // Assert
       const currentPortfolio = assetsService.portfolio;
       expect(fakePortfolioRepository.save).toHaveBeenCalledWith(currentPortfolio);
@@ -124,11 +106,12 @@ describe("The assets service", () => {
     });
   });
 
+
+  // ToDo: refactor to scenarios based test
   describe("when calculateValue is called", () => {
     it("should sum all assets values", () => {
       // Act
       const actualValue = assetsService.calculateValue();
-      
       // Assert
       expect(actualValue).toBe(inputAmount);
     });
@@ -138,10 +121,8 @@ describe("The assets service", () => {
       const validSymbol = fakeRatesResult.symbol;
       const validQuantity = 5;
       assetsService.buy(validSymbol, validQuantity);
-      
       // Act
       const actualValue = assetsService.calculateValue();
-      
       // Assert
       const expectedValue = 1500;//inputAmount + (validQuantity * fakeRatesResult.price); 
       expect(actualValue).toBe(expectedValue);

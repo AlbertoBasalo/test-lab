@@ -3,10 +3,8 @@ import { idUtils } from "../app/utils/id.utils.ts";
 // Suites pro.
 
 describe("id utils", () => {
-	let originalGetSeed: jest.Mock;
-	beforeAll(() => {
-		originalGetSeed = idUtils.getSeed as jest.Mock;
-	});
+	const originalGetSeed: jest.Mock = idUtils.getSeed as jest.Mock;
+	
 	beforeEach(() => {
 		idUtils.getSeed = originalGetSeed;
 		jest.clearAllMocks();
