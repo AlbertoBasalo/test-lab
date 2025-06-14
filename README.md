@@ -17,6 +17,11 @@ This archetype provides a standardized template and structure for creating unit 
 ## Usage
 
 ```bash
+npm install --save-dev  jest@latest
+npm install --save-dev  ts-jest@latest
+```
+
+```bash
 npm install
 npm test
 npm start
@@ -34,6 +39,10 @@ npm run lint
 ```bash
 npm init @eslint/config@latest
 npm install --save-dev  prettier@latest
+npm install eslint-config-prettier eslint-plugin-prettier --save-dev
+npm install -D @commitlint/cli @commitlint/config-conventional
+echo "export default { extends: ['@commitlint/config-conventional'] };" > commitlint.config.js
+npx husky init
 ```
 
 ## Credits
