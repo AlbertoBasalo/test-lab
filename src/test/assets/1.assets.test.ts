@@ -45,11 +45,11 @@ test('buildFor should create portfolio with USD asset', async () => {
   const ratesGateway = new RatesGateway();
   const service = new AssetsService(ratesGateway);
   // Act
-  await service.buildFor('user123', 2000);
+  await service.buildFor('user123', 1000);
   // Assert
   expect(service.portfolio.assets.length).toBe(1);
   expect(service.portfolio.assets[0].symbol).toBe('USD');
-  expect(service.portfolio.assets[0].quantity).toBe(2000);
+  expect(service.portfolio.assets[0].quantity).toBe(1000);
 });
 
 // 4 Effect tests
