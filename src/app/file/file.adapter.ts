@@ -1,7 +1,7 @@
-import fs from "node:fs/promises";
-import { directory } from "./directory.adapter.ts";
+import fs from 'node:fs/promises';
+import { directory } from './directory.adapter.ts';
 
-const ENCODING = "utf-8";
+const ENCODING = 'utf-8';
 
 /**
  * File adapter for file operations.

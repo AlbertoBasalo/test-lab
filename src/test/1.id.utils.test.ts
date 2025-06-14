@@ -1,13 +1,13 @@
-import { file } from "../app/file/file.adapter.ts";
-import { idUtils } from "../app/utils/id.utils.ts";
+import { file } from '../app/file/file.adapter.ts';
+import { idUtils } from '../app/utils/id.utils.ts';
 
 // Entry - Output
 
 // 1 Deterministic tests
 
-test("extractSeed should extract seed from id", () => {
+test('extractSeed should extract seed from id', () => {
   // Arrange
-  const inputId = "1.2";
+  const inputId = '1.2';
   const expectedSeed = 1;
   // Act
   const actualSeed = idUtils.extractSeed(inputId);
@@ -17,7 +17,7 @@ test("extractSeed should extract seed from id", () => {
 
 // 2 Non-deterministic tests
 
-test("generate should generate id with minimum length", async () => {
+test('generate should generate id with minimum length', async () => {
   // Arrange
   const expectedMinLength = 3;
   // Act
@@ -29,7 +29,7 @@ test("generate should generate id with minimum length", async () => {
 
 // 3 State change tests
 
-test("last should return a bigger last number after generating an id", async () => {
+test('last should return a bigger last number after generating an id', async () => {
   // Arrange
   const expectedLast = idUtils.last;
   await idUtils.generate();
@@ -40,12 +40,12 @@ test("last should return a bigger last number after generating an id", async () 
 });
 // 4 Effect tests
 
-test("seedJson should match seed from generated id", async () => {
+test('seedJson should match seed from generated id', async () => {
   // Arrange
   const id = await idUtils.generate();
   const expectedSeed = idUtils.extractSeed(id);
   // Act
-  const actualSeed = await file.readJson("seed.json");
+  const actualSeed = await file.readJson('seed.json');
   // Assert
   expect(actualSeed).toBe(expectedSeed);
 });

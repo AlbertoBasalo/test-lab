@@ -1,9 +1,9 @@
-import { file } from "../file/file.adapter.ts";
+import { file } from '../file/file.adapter.ts';
 
 let last = 0;
 let seed = 0;
-/**No usar en la versión inicial, 
- * solo pra demostrar la necesidad de DI 
+/**No usar en la versión inicial,
+ * solo pra demostrar la necesidad de DI
  * y mockear el file adapter (una dependencia del SUT)
  * */
 let _file = file;
@@ -26,7 +26,7 @@ export const idUtils = {
    * @returns The seed from the ID
    */
   extractSeed: (id: string): number => {
-    return Number.parseInt(id.split(".")[0]);
+    return Number.parseInt(id.split('.')[0]);
   },
   /**
    * Gets the current seed
@@ -34,11 +34,11 @@ export const idUtils = {
    */
   getSeed: async () => {
     if (seed > 0) return seed;
-    if (await _file.exists("seed.json")) {
-      seed = await _file.readJson("seed.json");
+    if (await _file.exists('seed.json')) {
+      seed = await _file.readJson('seed.json');
     }
     seed++;
-    await _file.writeJson("seed.json", seed);
+    await _file.writeJson('seed.json', seed);
     return seed;
   },
   /**

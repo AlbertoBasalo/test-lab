@@ -1,4 +1,4 @@
-export type AssetType = "cash" | "crypto" | "stocks";
+export type AssetType = 'cash' | 'crypto' | 'stocks';
 
 export type Asset = {
   name: string;
@@ -7,4 +7,4 @@ export type Asset = {
   quantity: number;
   updatedAt: Date;
   lastPrice: number;
-} 
+};

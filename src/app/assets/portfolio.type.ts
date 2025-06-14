@@ -1,4 +1,4 @@
-import { Asset } from "./asset.type";
+import { Asset } from './asset.type';
 
 export type Portfolio = {
   id: string;
@@ -6,11 +6,11 @@ export type Portfolio = {
   assets: Asset[];
   updatedAt: Date;
   lastValue: number;
-}
+};
 export const defaultPortfolio: Portfolio = {
   id: '',
   ownerId: '',
   assets: [],
   updatedAt: new Date(),
   lastValue: 0,
-}
+};

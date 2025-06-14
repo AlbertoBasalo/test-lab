@@ -3,4 +3,4 @@ export type Rate = {
   name: string;
   date: Date;
   price: number;
-} 
+};

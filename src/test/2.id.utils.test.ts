@@ -1,9 +1,9 @@
-import { idUtils } from "../app/utils/id.utils.ts";
+import { idUtils } from '../app/utils/id.utils.ts';
 
 // Doubles
 
 // 1-Stubs
-test("generate should generate id with stubbed getSeed", async () => {
+test('generate should generate id with stubbed getSeed', async () => {
   // Arrange
   const inputSeed = 314;
   const getSeedStub = jest.fn().mockResolvedValueOnce(inputSeed);
@@ -20,10 +20,10 @@ test("generate should generate id with stubbed getSeed", async () => {
 });
 
 // 2-Spies
-test("getSeed should call getSeed once", async () => {
+test('getSeed should call getSeed once', async () => {
   // Arrange
   jest.clearAllMocks();
-  const getSeedSpy = jest.spyOn(idUtils, "getSeed");
+  const getSeedSpy = jest.spyOn(idUtils, 'getSeed');
   // Act
   await idUtils.generate();
   // Assert
@@ -31,7 +31,7 @@ test("getSeed should call getSeed once", async () => {
 });
 
 // 3-Fakes
-test("generate should use fake file adapter", async () => {
+test('generate should use fake file adapter', async () => {
   // Arrange
   jest.clearAllMocks();
   const fakeSeed = 314;
@@ -41,7 +41,7 @@ test("generate should use fake file adapter", async () => {
     writeJson: jest.fn().mockResolvedValue(undefined),
     exists: jest.fn().mockResolvedValue(true),
   };
-  // biome-ignore lint: any for testing
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   idUtils.file = fileAdapterFake as any;
   // Act
   const actualId = await idUtils.generate();
@@ -49,5 +49,3 @@ test("generate should use fake file adapter", async () => {
   // Assert
   expect(actualSeed).toBe(expectedSeed);
 });
-
-

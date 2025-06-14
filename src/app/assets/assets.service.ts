@@ -1,12 +1,12 @@
-import { idUtils } from "../utils/id.utils";
-import { PortfolioRepository } from "./portfolio.repository";
-import { defaultPortfolio, Portfolio } from "./portfolio.type";
-import { RatesGateway } from "./rates.gateway";
+import { idUtils } from '../utils/id.utils';
+import { PortfolioRepository, PortfolioRepositoryFs } from './portfolio.repository';
+import { defaultPortfolio, Portfolio } from './portfolio.type';
+import { RatesGateway } from './rates.gateway';
 
 export class AssetsService {
   public portfolio: Portfolio = defaultPortfolio;
   private ratesGateway: RatesGateway;
-  private portfolioRepository: PortfolioRepository = new PortfolioRepository();
+  private portfolioRepository: PortfolioRepository = new PortfolioRepositoryFs();
 
   constructor(ratesGateway: RatesGateway) {
     this.ratesGateway = ratesGateway;
@@ -35,17 +35,24 @@ export class AssetsService {
     const rate = this.ratesGateway.get(symbol);
     const cost = rate.price * units;
     if (!this.hasEnoughUnits('USD', cost)) {
-      const usdAsset = this.portfolio.assets.find(asset => asset.symbol === 'USD');
+      const usdAsset = this.portfolio.assets.find((asset) => asset.symbol === 'USD');
       const have = usdAsset ? usdAsset.quantity : 0;
       throw new Error(`Not enough cash. Need: ${cost} - Have: ${have}`);
     }
-    const asset = this.portfolio.assets.find(asset => asset.symbol === symbol);
+    const asset = this.portfolio.assets.find((asset) => asset.symbol === symbol);
     if (asset) {
       asset.quantity += units;
       asset.updatedAt = new Date();
       asset.lastPrice = rate.price;
     } else {
-      this.portfolio.assets.push({ symbol, quantity: units, updatedAt: new Date(), lastPrice: rate.price, type: 'stocks', name: rate.name });
+      this.portfolio.assets.push({
+        symbol,
+        quantity: units,
+        updatedAt: new Date(),
+        lastPrice: rate.price,
+        type: 'stocks',
+        name: rate.name,
+      });
     }
     this.portfolio.lastValue = this.calculateValue();
   }
@@ -54,7 +61,7 @@ export class AssetsService {
     if (!this.hasEnoughUnits(symbol, units)) {
       throw new Error('Not enough units');
     }
-    const asset = this.portfolio.assets.find(asset => asset.symbol === symbol);
+    const asset = this.portfolio.assets.find((asset) => asset.symbol === symbol);
     if (!asset) {
       throw new Error('Asset not found');
     }
@@ -64,13 +71,20 @@ export class AssetsService {
     asset.updatedAt = new Date();
     asset.lastPrice = rate.price;
     // add to usd cash
-    const usdAsset = this.portfolio.assets.find(asset => asset.symbol === 'USD');
+    const usdAsset = this.portfolio.assets.find((asset) => asset.symbol === 'USD');
     if (usdAsset) {
       usdAsset.quantity += profit;
       usdAsset.updatedAt = new Date();
       usdAsset.lastPrice = rate.price;
     } else {
-      this.portfolio.assets.push({ symbol: 'USD', quantity: profit, updatedAt: new Date(), lastPrice: rate.price, type: 'cash', name: 'USD' });
+      this.portfolio.assets.push({
+        symbol: 'USD',
+        quantity: profit,
+        updatedAt: new Date(),
+        lastPrice: rate.price,
+        type: 'cash',
+        name: 'USD',
+      });
     }
     this.portfolio.lastValue = this.calculateValue();
   }
@@ -82,7 +96,9 @@ export class AssetsService {
     console.log(`Symbol - Quantity - Last price - Value`);
     console.log(`----------------------------------------`);
     for (const asset of this.portfolio.assets) {
-      console.log(`${asset.symbol} - ${asset.quantity} - ${asset.lastPrice} - ${asset.quantity * asset.lastPrice}`);
+      console.log(
+        `${asset.symbol} - ${asset.quantity} - ${asset.lastPrice} - ${asset.quantity * asset.lastPrice}`,
+      );
     }
   }
 
@@ -91,7 +107,7 @@ export class AssetsService {
   }
 
   private hasEnoughUnits(symbol: string, units: number): boolean {
-    const asset = this.portfolio.assets.find(asset => asset.symbol === symbol);
+    const asset = this.portfolio.assets.find((asset) => asset.symbol === symbol);
     return asset ? asset.quantity >= units : false;
   }
 
