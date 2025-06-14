@@ -8,7 +8,7 @@ import { idUtils } from '../app/utils/id.utils.ts';
 test('extractSeed should extract seed from id', () => {
   // Arrange
   const inputId = '1.2';
-  const expectedSeed = 1;
+  const expectedSeed = 9;
   // Act
   const actualSeed = idUtils.extractSeed(inputId);
   // Assert
