@@ -45,7 +45,7 @@ test('seedJson should match seed from generated id', async () => {
   const id = await idUtils.generate();
   const expectedSeed = idUtils.extractSeed(id);
   // Act
-  const actualSeed = await file.readJson('seed.json');
+  const actualSeed = await file.readJson('tmp/seed.json');
   // Assert
   expect(actualSeed).toBe(expectedSeed);
 });

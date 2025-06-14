@@ -34,11 +34,11 @@ export const idUtils = {
    */
   getSeed: async () => {
     if (seed > 0) return seed;
-    if (await _file.exists('seed.json')) {
-      seed = await _file.readJson('seed.json');
+    if (await _file.exists('tmp/seed.json')) {
+      seed = await _file.readJson('tmp/seed.json');
     }
     seed++;
-    await _file.writeJson('seed.json', seed);
+    await _file.writeJson('tmp/seed.json', seed);
     return seed;
   },
   /**

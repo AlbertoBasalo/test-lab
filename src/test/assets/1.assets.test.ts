@@ -62,6 +62,6 @@ test('save should produce a file with portfolio', async () => {
   // Act
   await service.save();
   // Assert
-  const actualExists = await file.exists('portfolio-user123.json');
+  const actualExists = await file.exists('tmp/portfolio-user123.json');
   expect(actualExists).toBe(true);
 });
