@@ -43,6 +43,7 @@ npm install eslint-config-prettier eslint-plugin-prettier --save-dev
 npm install -D @commitlint/cli @commitlint/config-conventional
 echo "export default { extends: ['@commitlint/config-conventional'] };" > commitlint.config.js
 npx husky init
+npm i --save-dev commit-and-tag-version
 ```
 
 ## Credits
