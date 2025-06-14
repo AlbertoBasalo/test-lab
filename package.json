@@ -4,10 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "",
+    "test": "jest",
     "test:watch": "jest --watch",
     "lint": "eslint .",
-    "prepare": "husky",
+    "noprepare": "husky",
     "release": "commit-and-tag-version"
   },
   "keywords": [],
