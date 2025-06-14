@@ -49,7 +49,7 @@ test('buildFor should create portfolio with USD asset', async () => {
   // Assert
   expect(service.portfolio.assets.length).toBe(1);
   expect(service.portfolio.assets[0].symbol).toBe('USD');
-  expect(service.portfolio.assets[0].quantity).toBe(1000);
+  expect(service.portfolio.assets[0].quantity).toBe(2000);
 });
 
 // 4 Effect tests
