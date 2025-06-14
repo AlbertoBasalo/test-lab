@@ -8,10 +8,8 @@
     "source.addMissingImports.ts": "always",
     "source.removeUnusedImports.ts": "always",
     "source.organizeImports": "always",
-    "source.fixAll.eslint": "always",
+    "source.fixAll.eslint": "always"
   },
   "prettier.requireConfig": true,
-  "eslint.validate": [
-    "typescript"
-  ]
+  "eslint.validate": ["typescript"]
 }
