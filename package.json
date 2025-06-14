@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
+    "test:changed": "jest --onlyChanged",
     "test:watch": "jest --watch",
     "lint": "eslint .",
     "prepare": "husky",
