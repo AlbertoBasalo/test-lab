@@ -44,6 +44,7 @@ npm i -D @commitlint/cli @commitlint/config-conventional
 npm i -D commit-and-tag-version
 echo "export default { extends: ['@commitlint/config-conventional'] };" > commitlint.config.js
 npx husky init
+npm i -D @stryker-mutator/jest-runner
 ```
 
 ## Credits

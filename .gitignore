@@ -2,3 +2,5 @@
 ./src/tmp/*
 ./tmp/*
 /tmp
+# stryker temp files
+.stryker-tmp
