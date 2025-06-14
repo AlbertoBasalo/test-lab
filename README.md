@@ -29,6 +29,13 @@ npm run dev
 npm run lint
 ```
 
+### Linting
+
+```bash
+npm init @eslint/config@latest
+npm install --save-dev  prettier@latest
+```
+
 ## Credits
 
 - [Alberto Basalo](https://albertobasalo.dev)
